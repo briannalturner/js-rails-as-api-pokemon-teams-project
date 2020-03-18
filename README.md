@@ -45,7 +45,7 @@ released from the team.
 Create a backend from scratch inside this lesson using an API-only Rails build.
 Exactly how you choose to structure things and the following guidelines to get
 started:
-
+ 
 ```sh
 rails new pokemon-teams-backend --api
 ```
