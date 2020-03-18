@@ -20,6 +20,7 @@ function renderTrainer(trainer) {
     let addPokemonBtn = document.createElement('button')
     addPokemonBtn.innerText = "Add Pokemon"
     addPokemonBtn.dataset.id = trainer.id
+    addPokemonBtn.addEventListener("click", () => addPokemon(trainer))
     
     let pokemonList = createPokemonList(trainer)
     div.append(trainerName, addPokemonBtn, pokemonList)
@@ -28,6 +29,7 @@ function renderTrainer(trainer) {
 
 function createPokemonList(trainer) {
     let list = document.createElement('ul')
+    list.name = 'list'
     trainer.pokemons.forEach(pokemon => {
         let li = document.createElement('li')
         let releaseBtn = document.createElement('button')
@@ -50,4 +52,23 @@ function releasePokemon(pokemon) {
     }).then(resp => {
         element.remove()
     })
+}
+
+function addPokemon(trainer) {
+    let trainerId = trainer.id
+    let teamLength = trainer.pokemons.length
+
+    if (teamLength < 6) {
+        fetch("http://localhost:3000/pokemons", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({trainer_id: trainerId})
+        }).then(resp => resp.json()).then(json => renderTrainer(trainer))
+
+        createPokemonList(trainer)
+    } else {
+        alert("This trainer already has 6 pokemon.")
+    }
 }
